@@ -16,7 +16,7 @@ description: >-
   Telegram Premium, delivered to any Telegram @username, paid on-chain in TON (GRAM) or USDT (TON). Non-custodial, no
   KYC. Offers versioned /v1 endpoints for pricing, recipient checks, product catalog, and order lifecycle, with signed
   webhooks and official TypeScript and Python SDKs.
-url: https://mystars-faas-fulfilment-api.apievangelist.com/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/mystars-faas-fulfilment-api/refs/heads/main/apis.yml
 created: '2026-07-12'
 modified: '2026-07-12'
 specificationVersion: '0.21'
