@@ -21,6 +21,20 @@ created: '2026-07-12'
 modified: '2026-07-12'
 specificationVersion: '0.23'
 tags:
+  - Telegram
+  - telegram-stars
+  - telegram-premium
+  - Payments
+  - Crypto
+  - TON
+  - gram
+  - usdt
+  - Fintech
+  - Fulfilment
+  - Digital Goods
+  - Non-Custodial
+  - no-kyc
+tags_raw:
   - telegram
   - telegram-stars
   - telegram-premium
@@ -42,6 +56,20 @@ apis:
     humanURL: https://mystars.tg/docs
     baseURL: https://mystars.tg/v1
     tags:
+      - Telegram
+      - telegram-stars
+      - telegram-premium
+      - Payments
+      - Crypto
+      - TON
+      - gram
+      - usdt
+      - Fintech
+      - Fulfilment
+      - Digital Goods
+      - Non-Custodial
+      - no-kyc
+    tags_raw:
       - telegram
       - telegram-stars
       - telegram-premium
