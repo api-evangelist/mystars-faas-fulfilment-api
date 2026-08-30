@@ -43,7 +43,7 @@ tags:
   - Fintech
   - Fulfilment
   - Digital Goods
-  - Non-Custodial
+  - non-custodial
   - no-kyc
 tags_raw:
   - telegram
@@ -78,7 +78,7 @@ apis:
       - Fintech
       - Fulfilment
       - Digital Goods
-      - Non-Custodial
+      - non-custodial
       - no-kyc
     tags_raw:
       - telegram
