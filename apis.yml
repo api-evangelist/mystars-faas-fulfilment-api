@@ -39,11 +39,11 @@ tags:
   - Crypto
   - TON
   - gram
-  - usdt
+  - USDT
   - Fintech
-  - Fulfilment
+  - fulfilment
   - Digital Goods
-  - non-custodial
+  - Non-Custodial
   - no-kyc
 tags_raw:
   - telegram
@@ -74,11 +74,11 @@ apis:
       - Crypto
       - TON
       - gram
-      - usdt
+      - USDT
       - Fintech
-      - Fulfilment
+      - fulfilment
       - Digital Goods
-      - non-custodial
+      - Non-Custodial
       - no-kyc
     tags_raw:
       - telegram
