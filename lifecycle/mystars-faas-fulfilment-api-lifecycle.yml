@@ -1,0 +1,28 @@
+generated: '2026-09-03'
+method: searched
+source: https://mystars.tg/docs
+note: >-
+  Versioning is URI-path /v1 with a dated semver changelog embedded in the developer portal
+  (17 entries, two marked breaking by the provider). No status page, no SLA, no published
+  deprecation policy, and no Sunset/Deprecation header support found - status.mystars.tg does not
+  resolve and /status 404s. No operations are marked deprecated in the OpenAPI.
+versioning:
+  scheme: uri-path
+  current: v1
+  spec_version: 1.12.0
+  docs: https://mystars.tg/docs
+changelog:
+  url: https://mystars.tg/docs
+  artifact: changelog/mystars-faas-fulfilment-api-changelog.yml
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: >-
+    No deprecation policy published. Breaking changes are flagged in the changelog (v1.0.0, v1.2.0)
+    and the docs freeze wire field names for compatibility (e.g. usdt_per_ton).
+sla: null
+status_page: null
+status_page_probe:
+  - {url: 'https://status.mystars.tg/', result: 'DNS does not resolve'}
+  - {url: 'https://mystars.tg/status', status: 404}
+deprecated_operations: []

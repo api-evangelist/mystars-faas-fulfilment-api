@@ -1,0 +1,32 @@
+generated: '2026-09-03'
+method: searched
+source: https://mystars.tg/openapi.json (info.description names both SDKs); registry.npmjs.org; pypi.org
+note: >-
+  Both SDKs are named as official in the provider's own OpenAPI info.description and docs. Registry
+  metadata read unauthenticated on 2026-09-03. Both released 0.1.9 on the same day (2026-08-04), the
+  same day API v1.12.0 shipped per the changelog - actively maintained in lockstep with the API.
+packages:
+  - language: typescript
+    registry: npm
+    name: "@mystars-tg/faas-sdk"
+    url: https://www.npmjs.com/package/@mystars-tg/faas-sdk
+    install: npm install @mystars-tg/faas-sdk
+    official: true
+    version: 0.1.9
+    published: '2026-08-04'
+    source_repo: https://github.com/mystars-tg/faas-ts
+    note: >-
+      Official TypeScript SDK; wraps every call with retries, idempotency, typed errors, and on-chain
+      payment builders. The repository npm points at (github.com/mystars-tg/faas-ts) returns 404 -
+      private or removed - but the package itself is live with 8 published versions.
+  - language: python
+    registry: pypi
+    name: mystars-faas
+    url: https://pypi.org/project/mystars-faas/
+    install: pip install mystars-faas
+    official: true
+    version: 0.1.9
+    published: '2026-08-04'
+    source_repo: https://github.com/mystars-tg/faas-python
+    note: >-
+      Official Python SDK; public source at github.com/mystars-tg/faas-python (last push 2026-08-31).

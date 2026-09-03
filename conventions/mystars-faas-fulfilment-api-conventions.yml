@@ -1,0 +1,86 @@
+generated: '2026-09-03'
+method: searched
+source: https://mystars.tg/docs
+note: >-
+  Cross-cutting semantics from the developer-portal overview and the published OpenAPI 3.1.0
+  (info.version 1.12.0). Cross-links: errors/mystars-faas-fulfilment-api-problem-types.yml,
+  rate-limits/mystars-faas-fulfilment-api-rate-limits.yml,
+  authentication/mystars-faas-fulfilment-api-authentication.yml,
+  changelog/mystars-faas-fulfilment-api-changelog.yml.
+authentication:
+  style: api-key
+  header: X-Api-Key
+  issuance: Telegram bot @my_stars_tg_bot -> API access; rotate with /api_rotate
+idempotency:
+  coverage: partial
+  scope: [createOrder]
+  header: Idempotency-Key
+  required: true
+  semantics: >-
+    Required on POST /v1/orders. Retrying with the same key and an identical body returns the
+    original order; the same key with a different body is a 409 conflict. On a retryable 503
+    (upstream unavailable) reuse the same key - no order is created and you are not charged.
+  note: >-
+    The mutating surface is two operations: createOrder (key required) and cancelOrder (no key;
+    a guarded state transition that only succeeds from awaiting_payment and returns 409 from any
+    other state, so a duplicate cancel cannot double-fire).
+pagination:
+  style: cursor
+  params: [limit, cursor]
+  response_fields: [next_cursor]
+  note: GET /v1/orders returns next_cursor; pass it back as cursor for the next page.
+versioning:
+  scheme: uri-path (/v1) + semver documented in the dated changelog
+  current: v1 (spec 1.12.0)
+error_envelope:
+  shape: '{ "error": { "code", "message", "telegram_message?" } }'
+  codes: closed enum - see errors/mystars-faas-fulfilment-api-problem-types.yml
+amounts:
+  convention: >-
+    All monetary amounts are decimal strings (never floats), in the unit named by the adjacent
+    *_units / currency field - treat as exact strings to avoid IEEE-754 precision loss.
+rate_limit_signaling:
+  headers: [RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset, Retry-After]
+  status: 429
+  detail: rate-limits/mystars-faas-fulfilment-api-rate-limits.yml
+webhooks:
+  model: per-order callback_url (no global subscription, no register-webhook endpoint)
+  signature_header: X-Faas-Signature
+  scheme: hex HMAC-SHA256 of the exact raw body under the webhook secret (Stripe/GitHub scheme)
+  secret_rotation: >-
+    /api_rotate_webhook in the bot; 24-hour rollover during which every webhook is signed with both
+    secrets, comma-separated in X-Faas-Signature - accept if ANY entry matches.
+  delivery: >-
+    Terminal statuses only (delivered, failed, reversed, expired); 5-second response deadline,
+    redirects not followed, non-2xx retried with exponential backoff then dead-lettered.
+reversibility:
+  grade: verified
+  read_only: false
+  write_operations:
+    - operation: createOrder
+      reversal:
+        - operation: cancelOrder
+          window: >-
+            While the order is still awaiting_payment - i.e. before payment lands, within the
+            2-hour payment window (expires_at is the single source of truth for the deadline;
+            window extended 15 min -> 1 h in v1.9.0 -> 2 h in v1.12.0). Any other state returns
+            409: an order that is already paid or processing cannot be cancelled.
+          docs: https://mystars.tg/docs
+      provider_side_reversal: >-
+        After payment, reversal is automatic and provider-initiated, never agent-invoked: you only
+        ever pay for a successful delivery. Undeliverable orders end reversed and funds return
+        on-chain to the paying address in the same currency minus the network fee (reference in
+        reversal_tx). Payment mismatches outside the -1%..+2% tolerance and unmatched payments
+        (no_memo / wrong_memo) are likewise reversed to the sender minus the network fee; amounts
+        below a small dust threshold are not reversed. held is NOT terminal - do not re-create the
+        order; poll or wait for the webhook.
+    - operation: cancelOrder
+      reversal: []
+      note: Cancel is itself the reversal path; an unpaid cancelled order has nothing to reverse.
+  docs: https://mystars.tg/docs
+request_tracing: null
+field_expansion: null
+dry_run: >-
+  na as a distinct mode - but checkRecipient and getPricing are explicit no-charge pre-flight
+  operations (an ineligible recipient returns 422 and creates no order; you are never charged for
+  an undeliverable recipient).

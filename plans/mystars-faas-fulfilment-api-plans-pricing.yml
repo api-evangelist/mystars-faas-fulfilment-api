@@ -1,0 +1,12 @@
+generated: '2026-09-03'
+method: searched
+source: https://mystars.tg/docs
+plan_count: 0
+note: >-
+  The API publishes no plan tiers - there is no subscription, seat, or quota pricing page. Access is
+  self-service (API key issued in the Telegram bot, no signup form) and commercial terms are per-order:
+  every order is quoted live via GET /v1/pricing (amount + currency, with a valid_until re-quote hint)
+  and settled by its own on-chain payment in GRAM or USDT (TON); USDT quotes carry an explicit
+  processing-fee breakdown (FeeBreakdown in the OpenAPI, added v1.8.0). Consumer pack prices are
+  published on mystars.tg but tenant API pricing is quote-based, not tiered.
+pricing_model: per-order, quoted live via GET /v1/pricing; settlement on-chain in GRAM or USDT (TON)

@@ -22,16 +22,50 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/mystars-faas-fulfilment-api.png
 name: MyStars FaaS — Fulfilment API
-description: >-
-  A B2B Fragment-as-a-Service (FaaS) fulfilment REST API for programmatically buying and reselling Telegram Stars and
-  Telegram Premium, delivered to any Telegram @username, paid on-chain in TON (GRAM) or USDT (TON). Non-custodial, no
-  KYC. Offers versioned /v1 endpoints for pricing, recipient checks, product catalog, and order lifecycle, with signed
-  webhooks and official TypeScript and Python SDKs.
+description: A B2B Fragment-as-a-Service (FaaS) fulfilment REST API for programmatically buying and reselling Telegram
+  Stars and Telegram Premium, delivered to any Telegram @username, paid on-chain in TON (GRAM) or USDT (TON). Non-custodial,
+  no KYC. Offers versioned /v1 endpoints for pricing, recipient checks, product catalog, and order lifecycle, with
+  signed webhooks and official TypeScript and Python SDKs.
 url: https://raw.githubusercontent.com/api-evangelist/mystars-faas-fulfilment-api/refs/heads/main/apis.yml
 created: '2026-07-12'
-modified: '2026-07-12'
+modified: '2026-09-03'
 specificationVersion: '0.23'
 tags:
+- Telegram
+- telegram-stars
+- telegram-premium
+- Payments
+- Crypto
+- TON
+- gram
+- USDT
+- Fintech
+- fulfilment
+- Digital Goods
+- Non-Custodial
+- no-kyc
+tags_raw:
+- telegram
+- telegram-stars
+- telegram-premium
+- payments
+- crypto
+- ton
+- gram
+- usdt
+- fintech
+- fulfilment
+- digital-goods
+- non-custodial
+- no-kyc
+apis:
+- name: MyStars FaaS Fulfilment API
+  description: REST/HTTP API for pricing, recipient eligibility checks, product catalog, and Telegram Stars/Premium
+    order lifecycle, with X-Api-Key auth and signed webhooks. OpenAPI contract and llms.txt are advertised by the
+    provider.
+  humanURL: https://mystars.tg/docs
+  baseURL: https://api.mystars.tg
+  tags:
   - Telegram
   - telegram-stars
   - telegram-premium
@@ -45,7 +79,7 @@ tags:
   - Digital Goods
   - Non-Custodial
   - no-kyc
-tags_raw:
+  tags_raw:
   - telegram
   - telegram-stars
   - telegram-premium
@@ -59,55 +93,89 @@ tags_raw:
   - digital-goods
   - non-custodial
   - no-kyc
-apis:
-  - name: MyStars FaaS Fulfilment API
-    description: >-
-      REST/HTTP API for pricing, recipient eligibility checks, product catalog, and Telegram Stars/Premium order
-      lifecycle, with X-Api-Key auth and signed webhooks. OpenAPI contract and llms.txt are advertised by the provider.
-    humanURL: https://mystars.tg/docs
-    baseURL: https://mystars.tg/v1
-    tags:
-      - Telegram
-      - telegram-stars
-      - telegram-premium
-      - Payments
-      - Crypto
-      - TON
-      - gram
-      - USDT
-      - Fintech
-      - fulfilment
-      - Digital Goods
-      - Non-Custodial
-      - no-kyc
-    tags_raw:
-      - telegram
-      - telegram-stars
-      - telegram-premium
-      - payments
-      - crypto
-      - ton
-      - gram
-      - usdt
-      - fintech
-      - fulfilment
-      - digital-goods
-      - non-custodial
-      - no-kyc
-    properties:
-      - type: Documentation
-        url: https://mystars.tg/docs
-      - type: Documentation
-        url: https://mystars.tg/docs/sdks
-      - type: OpenAPI
-        url: https://mystars.tg/openapi.json
-      - type: LLMSTxt
-        url: https://mystars.tg/llms.txt
+  properties:
+  - type: Documentation
+    url: https://mystars.tg/docs
+  - type: Documentation
+    url: https://mystars.tg/docs/sdks
+  - type: OpenAPI
+    url: https://mystars.tg/openapi.json
+  - type: OpenAPI
+    url: openapi/mystars-faas-fulfilment-api-openapi-original.json
+  - type: LLMsTxt
+    url: https://mystars.tg/llms.txt
+  - type: LLMsTxt
+    url: llms/mystars-faas-fulfilment-api-llms.txt
 maintainers:
-  - FN: MyStars.tg
-    url: https://github.com/mystars-tg
+- FN: MyStars.tg
+  email: admin@mystars.tg
+  url: https://github.com/mystars-tg
 generated:
   by: apis.io/add
   model: claude-opus-4-8
   confidence: 83
   at: '2026-07-12T18:42:08.127Z'
+common:
+- type: Website
+  url: https://mystars.tg
+- type: VulnerabilityDisclosure
+  url: security/mystars-faas-fulfilment-api-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/mystars-faas-fulfilment-api-domain-security.yml
+- type: Authentication
+  url: authentication/mystars-faas-fulfilment-api-authentication.yml
+- type: Packages
+  url: packages/mystars-faas-fulfilment-api-packages.yml
+- type: SDKs
+  url: packages/mystars-faas-fulfilment-api-packages.yml
+- type: WellKnown
+  url: well-known/mystars-faas-fulfilment-api-well-known.yml
+- type: SecurityTxt
+  url: well-known/mystars-faas-fulfilment-api-security.txt
+- type: Security
+  url: https://mystars.tg/.well-known/security.txt
+- type: ErrorCatalog
+  url: errors/mystars-faas-fulfilment-api-problem-types.yml
+- type: Conventions
+  url: conventions/mystars-faas-fulfilment-api-conventions.yml
+- type: Idempotency
+  url: conventions/mystars-faas-fulfilment-api-conventions.yml
+- type: RateLimits
+  url: rate-limits/mystars-faas-fulfilment-api-rate-limits.yml
+- type: Plans
+  url: plans/mystars-faas-fulfilment-api-plans-pricing.yml
+- type: ChangeLog
+  url: changelog/mystars-faas-fulfilment-api-changelog.yml
+- type: Lifecycle
+  url: lifecycle/mystars-faas-fulfilment-api-lifecycle.yml
+- type: Conformance
+  url: conformance/mystars-faas-fulfilment-api-conformance.yml
+- type: DataModel
+  url: data-model/mystars-faas-fulfilment-api-data-model.yml
+- type: Webhooks
+  url: asyncapi/mystars-faas-fulfilment-api-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Overlay
+  url: overlays/mystars-faas-fulfilment-api-openapi-overlay.yaml
+- type: DeveloperPortal
+  url: https://mystars.tg/docs
+- type: APIReference
+  url: https://mystars.tg/docs
+- type: Support
+  url: https://t.me/Mystars_support_bot
+- type: Blog
+  url: https://mystars.tg/blog
+- type: TermsOfService
+  url: https://mystars.tg/terms
+- type: PrivacyPolicy
+  url: https://mystars.tg/privacy
+- type: SignUp
+  url: https://t.me/my_stars_tg_bot
+- type: GitHubOrganization
+  url: https://github.com/mystars-tg
+x-enrichment:
+  date: '2026-09-03'
+  status: enriched
+  artifacts_added: 24
+  pass: local-v2

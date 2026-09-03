@@ -1,0 +1,44 @@
+generated: '2026-09-03'
+method: derived
+source: openapi/mystars-faas-fulfilment-api-openapi-original.json
+note: >-
+  Entity graph derived from components.schemas $ref links and id-reference fields. The core entity
+  is Order, identified by order_id (also used as the on-chain payment memo). On-chain references
+  are payment_tx, purchase_tx, reversal_tx.
+entities:
+  - name: Order
+    id_field: order_id
+    note: order_id doubles as the on-chain payment memo; terminal states delivered/failed/reversed/expired, held is non-terminal.
+  - name: CreatedOrder
+    id_field: order_id
+    note: The createOrder response projection - embeds the PaymentInstruction.
+  - name: Recipient
+    note: A Telegram @username; validated by checkRecipient before ordering.
+  - name: PaymentInstruction
+    note: Exactly how much to send, to which address, with which memo; embeds FeeBreakdown.
+  - name: FeeBreakdown
+    note: subtotal + processing_fee + total (USDT quotes carry an explicit processing fee).
+  - name: Quote
+    note: Priced amount + currency with quoted_at / valid_until freshness and usdt_per_ton rate.
+  - name: QuoteBatch
+    note: getPricingBatch result - has_many Quote.
+  - name: Product
+    note: Purchasable catalog entry (stars quantity range / premium months values).
+relationships:
+  - {from: CreateOrderRequest, to: Recipient, kind: has_one, via: recipient}
+  - {from: CreateOrderRequest, to: OrderType, kind: has_one, via: type}
+  - {from: CreateOrderRequest, to: PaymentCurrency, kind: has_one, via: payment_currency}
+  - {from: CreatedOrder, to: PaymentInstruction, kind: has_one, via: payment}
+  - {from: CreatedOrder, to: OrderStatus, kind: has_one, via: status}
+  - {from: PaymentInstruction, to: FeeBreakdown, kind: has_one, via: fee}
+  - {from: PaymentInstruction, to: PaymentCurrency, kind: has_one, via: currency}
+  - {from: Order, to: OrderStatus, kind: has_one, via: status}
+  - {from: Order, to: OrderType, kind: has_one, via: type}
+  - {from: Order, to: Recipient, kind: belongs_to, via: recipient_username}
+  - {from: QuoteBatch, to: Quote, kind: has_many, via: quotes}
+  - {from: Quote, to: FeeBreakdown, kind: has_one, via: fee}
+  - {from: RecipientCheckRequest, to: Recipient, kind: has_one, via: recipient}
+enums:
+  - {name: OrderType, note: stars | premium}
+  - {name: OrderStatus, note: awaiting_payment / held (non-terminal) -> delivered / failed / reversed / expired / cancelled}
+  - {name: PaymentCurrency, note: GRAM (ex TON) or USDT on TON}

@@ -1,0 +1,77 @@
+generated: '2026-09-03'
+method: derived
+source: openapi/mystars-faas-fulfilment-api-openapi-original.json
+format: custom-envelope
+note: >-
+  Not RFC 9457 - every error is application/json with a stable envelope
+  { "error": { "code", "message", "telegram_message?" } }. code is the machine string to branch on;
+  telegram_message, when present, is a verbatim user-facing message from Fragment. A malformed JSON
+  body returns 400 bad_request; a body over 256 KB is rejected. Error codes are a closed enum in
+  components.schemas.Error.
+envelope:
+  field: error
+  properties: [code, message, telegram_message]
+codes:
+  - code: bad_request
+    status: 400
+    title: Malformed request
+  - code: unauthorized
+    status: 401
+    title: Missing or invalid X-Api-Key
+  - code: forbidden
+    status: 403
+    title: Forbidden
+  - code: not_found
+    status: 404
+    title: No such order for this tenant
+  - code: conflict
+    status: 409
+    title: Conflict
+    remediation: >-
+      On createOrder - the same Idempotency-Key was retried with a different body. On cancelOrder -
+      the order is no longer awaiting_payment and cannot be cancelled.
+  - code: recipient_ineligible
+    status: 422
+    title: The recipient cannot receive this item
+    remediation: No order is created and you are not charged. Pre-flight with checkRecipient.
+  - code: rate_limited
+    status: 429
+    title: A rate limit was reached
+    remediation: >-
+      Per-minute budget 429s carry RateLimit-* + Retry-After headers; daily-cap and recipient-guard
+      429s carry the envelope only - back off and retry.
+  - code: unavailable
+    status: 503
+    title: A required upstream source was temporarily unavailable
+    remediation: Retryable - reuse the same Idempotency-Key and try again shortly. No order is created.
+  - code: internal
+    status: 500
+    title: Internal error
+problems:
+  - status: 400
+    title: Malformed request
+    source_operation: components/responses/BadRequest
+  - status: 401
+    title: Missing or invalid X-Api-Key
+    source_operation: components/responses/Unauthorized
+  - status: 404
+    title: No such order for this tenant
+    source_operation: components/responses/NotFound
+  - status: 422
+    title: Recipient ineligible - no order created
+    source_operation: components/responses/RecipientIneligible
+  - status: 429
+    title: Rate limited
+    source_operation: components/responses/RateLimited
+  - status: 503
+    title: Upstream unavailable - retry with the same Idempotency-Key
+    source_operation: components/responses/Unavailable
+failure_reasons:
+  note: Terminal order failure_reason values documented in the Reversals & delivery section of the docs.
+  values:
+    - {reason: undeliverable, terminal_status: reversed, funds: reversed to paying address minus network fee}
+    - {reason: underpaid, terminal_status: failed, funds: reversed (outside -1%..+2% tolerance)}
+    - {reason: overpaid, terminal_status: failed, funds: reversed (outside -1%..+2% tolerance)}
+    - {reason: no_memo, terminal_status: failed, funds: reversed to sender minus network fee}
+    - {reason: wrong_memo, terminal_status: failed, funds: reversed to sender minus network fee}
+    - {reason: expired, terminal_status: expired, funds: nothing to reverse (no matching payment before expires_at)}

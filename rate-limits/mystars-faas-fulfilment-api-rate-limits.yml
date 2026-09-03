@@ -1,0 +1,39 @@
+generated: '2026-09-03'
+method: searched
+source: https://mystars.tg/docs
+note: >-
+  Rate limits are documented in the developer portal overview (added v1.5.0, 2026-06-21; the
+  order-lifecycle bucket split off in v1.10.0). Limits and headers below are quoted from the docs
+  and the published OpenAPI RateLimited response component.
+limit_count: 4
+limits:
+  - scope: per-tenant, /v1 read endpoints
+    window: 1 minute
+    limit: 60
+    note: Default per-minute request budget; read the live ceiling from RateLimit-Limit rather than hard-coding.
+  - scope: per-tenant, order lifecycle (createOrder, getOrder, cancelOrder)
+    window: 1 minute
+    limit: 60
+    note: >-
+      A separate bucket of the same per-minute size, isolated from the read budget - a burst of
+      pricing/catalog reads can never throttle order create, poll, or cancel.
+  - scope: per-tenant probe cap (getPricing, getPricingBatch, checkRecipient)
+    window: 1 minute
+    limit: 60
+    note: >-
+      Tighter cap in addition to the general budget because each call drives an upstream
+      price/eligibility lookup. A batch pricing call counts as one unit. (Raised 10 -> 30/min in
+      v1.5.0; the current docs and spec state 60/min.)
+  - scope: per-tenant daily order cap + per-recipient concurrent-order guard (createOrder)
+    window: 1 day / short-term
+    limit: null
+    note: >-
+      Optional daily order cap and a flood guard on concurrent orders to the same @username; numbers
+      are not published. These 429s carry the error envelope only, without RateLimit-* headers.
+headers:
+  - RateLimit-Limit
+  - RateLimit-Remaining
+  - RateLimit-Reset
+  - Retry-After
+exhaustion_status: 429
+exhaustion_envelope: '{ "error": { "code": "rate_limited", "message": "..." } }'

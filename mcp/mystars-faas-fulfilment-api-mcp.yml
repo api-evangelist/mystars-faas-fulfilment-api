@@ -1,0 +1,44 @@
+generated: '2026-09-03'
+method: derived
+status: candidate
+source: openapi/mystars-faas-fulfilment-api-openapi-original.json
+note: >-
+  No official MCP server found - the docs (Scalar) mention MCP only in the doc-tool's own CSS, and no
+  hosted endpoint or stdio package is published on npm/PyPI or in the docs. This is a DERIVED candidate
+  tool list from the 9 OpenAPI operations; nobody ships a server today.
+deployment:
+  mode: none
+  auth: api-key
+  verified: derived
+server:
+  name: mystars-faas
+  transport: null
+  url: null
+tools:
+  - name: get_pricing
+    description: Quote the price of a Stars quantity or Premium term in GRAM or USDT
+    source_operation: openapi/mystars-faas-fulfilment-api-openapi-original.json#getPricing
+  - name: get_pricing_batch
+    description: Quote several quantities/terms in one call
+    source_operation: openapi/mystars-faas-fulfilment-api-openapi-original.json#getPricingBatch
+  - name: list_currencies
+    description: List accepted payment currencies (GRAM, USDT on TON)
+    source_operation: openapi/mystars-faas-fulfilment-api-openapi-original.json#listCurrencies
+  - name: list_products
+    description: List available products (Stars packs, Premium terms)
+    source_operation: openapi/mystars-faas-fulfilment-api-openapi-original.json#listProducts
+  - name: check_recipient
+    description: Check whether a Telegram @username can receive Stars or Premium before paying
+    source_operation: openapi/mystars-faas-fulfilment-api-openapi-original.json#checkRecipient
+  - name: create_order
+    description: Create an order in awaiting_payment and get on-chain payment instructions (requires Idempotency-Key)
+    source_operation: openapi/mystars-faas-fulfilment-api-openapi-original.json#createOrder
+  - name: list_orders
+    description: List orders for this tenant (cursor pagination)
+    source_operation: openapi/mystars-faas-fulfilment-api-openapi-original.json#listOrders
+  - name: get_order
+    description: Poll one order's status through to a terminal state
+    source_operation: openapi/mystars-faas-fulfilment-api-openapi-original.json#getOrder
+  - name: cancel_order
+    description: Cancel an order that is still awaiting_payment (409 in any other state)
+    source_operation: openapi/mystars-faas-fulfilment-api-openapi-original.json#cancelOrder

@@ -1,0 +1,104 @@
+generated: '2026-09-03'
+method: searched
+note: >-
+  Probed the closed well-known path list on all three hosts the record knows. Real hits: an RFC 9116
+  security.txt on mystars.tg and www.mystars.tg (identical, canonical https://mystars.tg/.well-known/security.txt),
+  and a valid APIs.json (specificationVersion 0.18, aid mystars.tg:faas, one API entry) at the domain root
+  /apis.json on both web hosts. The api.mystars.tg API host 404s every well-known path. The negative-control
+  path returned 404 on every host, so the 200s are genuine documents, not a catch-all router.
+path_echo_control: passed
+hosts:
+  - host: https://mystars.tg
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        file: mystars-faas-fulfilment-api-security.txt
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/ucp.json
+        status: 404
+      - path: /.well-known/acp.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+      - path: /.well-known/apis.json
+        status: 404
+      - path: /apis.json
+        status: 200
+        file: mystars-faas-fulfilment-api-apis.json
+      - path: /apis.yml
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://www.mystars.tg
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        file: mystars-faas-fulfilment-api-security.txt
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/ucp.json
+        status: 404
+      - path: /.well-known/acp.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+      - path: /.well-known/apis.json
+        status: 404
+      - path: /apis.json
+        status: 200
+        file: mystars-faas-fulfilment-api-apis.json
+      - path: /apis.yml
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://api.mystars.tg
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/ucp.json
+        status: 404
+      - path: /.well-known/acp.json
+        status: 404
+      - path: /.well-known/aauth-resource.json
+        status: 404
+      - path: /.well-known/apis.json
+        status: 404
+      - path: /apis.json
+        status: 404
+      - path: /apis.yml
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404

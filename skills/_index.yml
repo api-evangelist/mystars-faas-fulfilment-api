@@ -1,0 +1,15 @@
+generated: '2026-09-03'
+method: generated
+skills:
+  - file: mystars-faas-fulfilment-api-buy-stars-or-premium.md
+    name: Buy Telegram Stars or Premium for a username
+    api: openapi/mystars-faas-fulfilment-api-openapi-original.json
+    operations: [getPricing, checkRecipient, createOrder, getOrder]
+  - file: mystars-faas-fulfilment-api-order-lifecycle.md
+    name: Manage and reverse MyStars orders
+    api: openapi/mystars-faas-fulfilment-api-openapi-original.json
+    operations: [listOrders, getOrder, cancelOrder]
+  - file: mystars-faas-fulfilment-api-verify-webhooks.md
+    name: Receive and verify MyStars order-status webhooks
+    api: openapi/mystars-faas-fulfilment-api-openapi-original.json
+    operations: [createOrder, orderStatusWebhook]

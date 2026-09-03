@@ -1,0 +1,28 @@
+generated: '2026-09-03'
+method: searched
+source: https://mystars.tg/openapi.json (webhooks.orderStatus) + https://mystars.tg/docs
+spec_type: Webhooks
+note: >-
+  No AsyncAPI document is published. The event surface is a single signed order-status webhook,
+  formally declared in the OpenAPI 3.1 webhooks section (orderStatus / operationId
+  orderStatusWebhook) - captured here as the webhook catalog.
+model: per-order callback_url passed in POST /v1/orders; no global subscription, no register-webhook endpoint
+events:
+  - name: orderStatus
+    operation_id: orderStatusWebhook
+    trigger: order reaches a terminal status
+    terminal_statuses: [delivered, failed, reversed, expired]
+    payload: application/json (declared in the OpenAPI webhooks section)
+    signature:
+      header: X-Faas-Signature
+      scheme: hex HMAC-SHA256 of the exact raw request body under the webhook secret
+      rotation: >-
+        24-hour rollover after /api_rotate_webhook - header may carry multiple comma-separated
+        signatures; accept if any matches.
+    delivery:
+      response_deadline_seconds: 5
+      redirects_followed: false
+      retry: non-2xx or timeout retried with exponential backoff, then dead-lettered
+      stability: body and signature are stable across retries
+history:
+  - 'v1.3.0 (2026-06-21): terminal failed and expired events added (previously only delivered and reversed fired).'

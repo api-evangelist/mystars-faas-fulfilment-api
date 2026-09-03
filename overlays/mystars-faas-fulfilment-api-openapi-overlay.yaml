@@ -1,0 +1,30 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for MyStars FaaS - Fulfilment API
+  version: 1.0.0
+extends: openapi/mystars-faas-fulfilment-api-openapi-original.json
+x-provenance:
+  generated: '2026-09-03'
+  method: generated
+  source: openapi/mystars-faas-fulfilment-api-openapi-original.json
+actions:
+  - target: $.info
+    update:
+      x-apievangelist:
+        profiled: '2026-09-03'
+        provider: mystars-faas-fulfilment-api
+        artifacts:
+          conventions: conventions/mystars-faas-fulfilment-api-conventions.yml
+          errors: errors/mystars-faas-fulfilment-api-problem-types.yml
+          rate-limits: rate-limits/mystars-faas-fulfilment-api-rate-limits.yml
+          webhooks: asyncapi/mystars-faas-fulfilment-api-webhooks.yml
+  - target: $.paths['/v1/orders'].post
+    update:
+      x-agentic-notes:
+        consequence: financial - creates an order settled by a real on-chain payment
+        idempotency: Idempotency-Key required; reuse the same key on 503 retries
+        reversal: cancelOrder while awaiting_payment; after payment, reversal is provider-side only
+  - target: $.paths['/v1/recipients/check'].post
+    update:
+      x-agentic-notes:
+        consequence: read - free pre-flight; never creates an order or charges
