@@ -59,49 +59,76 @@ tags_raw:
 - non-custodial
 - no-kyc
 apis:
-- name: MyStars FaaS Fulfilment API
-  description: REST/HTTP API for pricing, recipient eligibility checks, product catalog, and Telegram Stars/Premium
-    order lifecycle, with X-Api-Key auth and signed webhooks. OpenAPI contract and llms.txt are advertised by the
-    provider.
+- aid: mystars-faas-fulfilment-api:mystars-faas-fulfilment-api-mystars-faas-fulfilment-api-api
+  name: MyStars FaaS — Fulfilment API MyStars FaaS — Fulfilment API
+  description: >-
+    The MyStars FaaS — Fulfilment API API from MyStars FaaS — Fulfilment API — 0 operation(s) for mystars
+    faas — fulfilment api.
   humanURL: https://mystars.tg/docs
   baseURL: https://api.mystars.tg
   tags:
-  - Telegram
-  - telegram-stars
-  - telegram-premium
-  - Payments
-  - Crypto
-  - TON
-  - gram
-  - USDT
-  - Fintech
-  - fulfilment
-  - Digital Goods
-  - Non-Custodial
-  - no-kyc
-  tags_raw:
-  - telegram
-  - telegram-stars
-  - telegram-premium
-  - payments
-  - crypto
-  - ton
-  - gram
-  - usdt
-  - fintech
-  - fulfilment
-  - digital-goods
-  - non-custodial
-  - no-kyc
+  - MyStars FaaS — Fulfilment API
   properties:
+  - type: OpenAPI
+    url: openapi/mystars-faas-fulfilment-api-mystars-faas-fulfilment-api-api-openapi.yml
   - type: Documentation
     url: https://mystars.tg/docs
   - type: Documentation
     url: https://mystars.tg/docs/sdks
+  - type: LLMsTxt
+    url: https://mystars.tg/llms.txt
+  - type: LLMsTxt
+    url: llms/mystars-faas-fulfilment-api-llms.txt
+- aid: mystars-faas-fulfilment-api:mystars-faas-fulfilment-api-orders-api
+  name: MyStars FaaS — Fulfilment API Orders API
+  description: Create, inspect, list and cancel fulfilment orders.
+  humanURL: https://mystars.tg/docs
+  baseURL: https://api.mystars.tg
+  tags:
+  - Orders
+  properties:
   - type: OpenAPI
-    url: https://mystars.tg/openapi.json
+    url: openapi/mystars-faas-fulfilment-api-orders-api-openapi.yml
+  - type: Documentation
+    url: https://mystars.tg/docs
+  - type: Documentation
+    url: https://mystars.tg/docs/sdks
+  - type: LLMsTxt
+    url: https://mystars.tg/llms.txt
+  - type: LLMsTxt
+    url: llms/mystars-faas-fulfilment-api-llms.txt
+- aid: mystars-faas-fulfilment-api:mystars-faas-fulfilment-api-pricing-api
+  name: MyStars FaaS — Fulfilment API Pricing API
+  description: Quote a price; list supported payment currencies and products.
+  humanURL: https://mystars.tg/docs
+  baseURL: https://api.mystars.tg
+  tags:
+  - Pricing
+  properties:
   - type: OpenAPI
-    url: openapi/mystars-faas-fulfilment-api-openapi-original.json
+    url: openapi/mystars-faas-fulfilment-api-pricing-api-openapi.yml
+  - type: Documentation
+    url: https://mystars.tg/docs
+  - type: Documentation
+    url: https://mystars.tg/docs/sdks
+  - type: LLMsTxt
+    url: https://mystars.tg/llms.txt
+  - type: LLMsTxt
+    url: llms/mystars-faas-fulfilment-api-llms.txt
+- aid: mystars-faas-fulfilment-api:mystars-faas-fulfilment-api-recipients-api
+  name: MyStars FaaS — Fulfilment API Recipients API
+  description: Resolve a recipient and check delivery eligibility before ordering.
+  humanURL: https://mystars.tg/docs
+  baseURL: https://api.mystars.tg
+  tags:
+  - Recipients
+  properties:
+  - type: OpenAPI
+    url: openapi/mystars-faas-fulfilment-api-recipients-api-openapi.yml
+  - type: Documentation
+    url: https://mystars.tg/docs
+  - type: Documentation
+    url: https://mystars.tg/docs/sdks
   - type: LLMsTxt
     url: https://mystars.tg/llms.txt
   - type: LLMsTxt
