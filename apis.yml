@@ -85,6 +85,8 @@ apis:
   humanURL: https://mystars.tg/docs
   baseURL: https://api.mystars.tg
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
