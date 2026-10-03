@@ -105,36 +105,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    Error:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: object
-          required:
-          - code
-          - message
-          properties:
-            code:
-              type: string
-              description: Stable machine error code to branch on.
-              enum:
-              - bad_request
-              - unauthorized
-              - forbidden
-              - not_found
-              - conflict
-              - recipient_ineligible
-              - rate_limited
-              - unavailable
-              - internal
-            message:
-              type: string
-              description: Human-readable description.
-            telegram_message:
-              type: string
-              description: A verbatim user-facing message from Fragment, when present.
     RecipientCheckRequest:
       type: object
       required:
@@ -168,6 +138,11 @@ components:
             '
           pattern: ^@?[a-zA-Z0-9_]{1,32}$
           example: durov
+    OrderType:
+      type: string
+      enum:
+      - stars
+      - premium
     RecipientCheckResult:
       type: object
       required:
@@ -218,24 +193,37 @@ components:
             Always present since 1.11.0. Clients written against an earlier version saw the field absent; absent and `false` mean the same thing.
 
             '
-    OrderType:
-      type: string
-      enum:
-      - stars
-      - premium
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Stable machine error code to branch on.
+              enum:
+              - bad_request
+              - unauthorized
+              - forbidden
+              - not_found
+              - conflict
+              - recipient_ineligible
+              - rate_limited
+              - unavailable
+              - internal
+            message:
+              type: string
+              description: Human-readable description.
+            telegram_message:
+              type: string
+              description: A verbatim user-facing message from Fragment, when present.
   responses:
-    BadRequest:
-      description: Malformed request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid `X-Api-Key`.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     RateLimited:
       description: 'A rate limit was reached — the per-minute request budget, the tighter
 
@@ -254,6 +242,18 @@ components:
             error:
               code: rate_limited
               message: rate limit exceeded
+    Unauthorized:
+      description: Missing or invalid `X-Api-Key`.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Malformed request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
