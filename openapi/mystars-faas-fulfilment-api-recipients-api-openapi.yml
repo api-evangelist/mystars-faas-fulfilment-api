@@ -104,28 +104,38 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  schemas:
-    RecipientCheckRequest:
-      type: object
-      required:
-      - type
-      - recipient
-      properties:
-        type:
-          description: 'The product to check — and the product you intend to order. `stars` resolves a Stars recipient; `premium` resolves a Premium-gift recipient and uses `months`. Must match the `type` you pass to `POST /v1/orders`; a Stars check does not prove a Premium gift will be accepted (Premium has extra eligibility rules — see the endpoint description).
+  responses:
+    BadRequest:
+      description: Malformed request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid `X-Api-Key`.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: 'A rate limit was reached — the per-minute request budget, the tighter
 
-            '
-          allOf:
-          - $ref: '#/components/schemas/OrderType'
-        recipient:
-          $ref: '#/components/schemas/Recipient'
-        months:
-          type: integer
-          enum:
-          - 3
-          - 6
-          - 12
-          description: Only meaningful for `type=premium` (defaults to 3). Must be 3, 6, or 12.
+        pricing/recipient-check probe cap (60 req/min), the daily order cap, or the
+
+        per-recipient flood guard. See **Rate limits** in the overview. The
+
+        per-minute-budget responses also carry `RateLimit-*` + `Retry-After` headers.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: rate_limited
+              message: rate limit exceeded
+  schemas:
     Recipient:
       type: object
       required:
@@ -138,11 +148,36 @@ components:
             '
           pattern: ^@?[a-zA-Z0-9_]{1,32}$
           example: durov
-    OrderType:
-      type: string
-      enum:
-      - stars
-      - premium
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Stable machine error code to branch on.
+              enum:
+              - bad_request
+              - unauthorized
+              - forbidden
+              - not_found
+              - conflict
+              - recipient_ineligible
+              - rate_limited
+              - unavailable
+              - internal
+            message:
+              type: string
+              description: Human-readable description.
+            telegram_message:
+              type: string
+              description: A verbatim user-facing message from Fragment, when present.
     RecipientCheckResult:
       type: object
       required:
@@ -193,67 +228,32 @@ components:
             Always present since 1.11.0. Clients written against an earlier version saw the field absent; absent and `false` mean the same thing.
 
             '
-    Error:
+    RecipientCheckRequest:
       type: object
       required:
-      - error
+      - type
+      - recipient
       properties:
-        error:
-          type: object
-          required:
-          - code
-          - message
-          properties:
-            code:
-              type: string
-              description: Stable machine error code to branch on.
-              enum:
-              - bad_request
-              - unauthorized
-              - forbidden
-              - not_found
-              - conflict
-              - recipient_ineligible
-              - rate_limited
-              - unavailable
-              - internal
-            message:
-              type: string
-              description: Human-readable description.
-            telegram_message:
-              type: string
-              description: A verbatim user-facing message from Fragment, when present.
-  responses:
-    RateLimited:
-      description: 'A rate limit was reached — the per-minute request budget, the tighter
+        type:
+          description: 'The product to check — and the product you intend to order. `stars` resolves a Stars recipient; `premium` resolves a Premium-gift recipient and uses `months`. Must match the `type` you pass to `POST /v1/orders`; a Stars check does not prove a Premium gift will be accepted (Premium has extra eligibility rules — see the endpoint description).
 
-        pricing/recipient-check probe cap (60 req/min), the daily order cap, or the
-
-        per-recipient flood guard. See **Rate limits** in the overview. The
-
-        per-minute-budget responses also carry `RateLimit-*` + `Retry-After` headers.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            error:
-              code: rate_limited
-              message: rate limit exceeded
-    Unauthorized:
-      description: Missing or invalid `X-Api-Key`.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Malformed request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+            '
+          allOf:
+          - $ref: '#/components/schemas/OrderType'
+        recipient:
+          $ref: '#/components/schemas/Recipient'
+        months:
+          type: integer
+          enum:
+          - 3
+          - 6
+          - 12
+          description: Only meaningful for `type=premium` (defaults to 3). Must be 3, 6, or 12.
+    OrderType:
+      type: string
+      enum:
+      - stars
+      - premium
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

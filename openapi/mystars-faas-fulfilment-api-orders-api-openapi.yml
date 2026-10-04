@@ -317,154 +317,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    FeeBreakdown:
-      type: object
-      description: Itemisation of the `usdt_ton` processing fee that is ALREADY part of the all-in amount. `subtotal + processing_fee == total == amount`. Pass-through swap cost only — it does not reveal our cost basis or markup. Only `total` (= `amount`) is binding — the `subtotal`/`processing_fee` split is informational and may shift by a cent with the live FX rate.
-      required:
-      - subtotal
-      - processing_fee
-      - total
-      - description
-      - currency
-      properties:
-        subtotal:
-          type: string
-          description: The item price before the processing fee, as a decimal string (USDT).
-          example: '13.18'
-        processing_fee:
-          type: string
-          description: The 1% DEX swap fee + 0.5 GRAM swap gas, combined and rounded up to the cent, as a decimal string (USDT).
-          example: '0.92'
-        total:
-          type: string
-          description: subtotal + processing_fee — equals `amount`. Decimal string (USDT).
-          example: '14.1'
-        description:
-          type: string
-          description: Human-readable label for the fee components.
-          example: 1% swap + 0.5 GRAM gas
-        currency:
-          type: string
-          enum:
-          - usdt
-          description: The unit of the fee amounts (always `usdt`).
-    CreatedOrder:
-      type: object
-      required:
-      - order_id
-      - status
-      - type
-      - quantity
-      - months
-      - payment
-      - expires_at
-      properties:
-        order_id:
-          type: string
-          format: uuid
-        status:
-          $ref: '#/components/schemas/OrderStatus'
-        type:
-          type: string
-          description: The product this order is for — echoed back from your request.
-          enum:
-          - stars
-          - premium
-        quantity:
-          type:
-          - integer
-          - 'null'
-          description: 'The number of Stars ordered (when `type=stars`); `null` for Premium.
-
-            '
-          example: 500
-        months:
-          type:
-          - integer
-          - 'null'
-          description: 'The Premium subscription length in months ordered (when `type=premium`); `null` for Stars.
-
-            '
-          example: null
-        payment:
-          $ref: '#/components/schemas/PaymentInstruction'
-        expires_at:
-          type: string
-          format: date-time
-          description: After this, an unpaid order expires and is cleaned up.
-    PaymentCurrency:
-      type: string
-      enum:
-      - ton
-      - usdt_ton
-      default: ton
-      description: '`ton` = GRAM (ex TON), `usdt_ton` = USDT (TON).'
-    OrderStatus:
-      type: string
-      description: Lifecycle status. `awaiting_payment` is the only cancellable state.
-      enum:
-      - received
-      - awaiting_payment
-      - paid
-      - reserved
-      - swapping
-      - funding
-      - purchasing
-      - fulfilling
-      - completed
-      - delivered
-      - failed
-      - reversed
-      - expired
-      - held
-      - cancelled
-    Recipient:
-      type: object
-      required:
-      - username
-      properties:
-        username:
-          type: string
-          description: 'Telegram @username (the leading `@` is optional, case-insensitive). After canonicalisation (strip `@`, lowercase) must match `[a-z0-9_]{1,32}` — invalid or oversized handles return 400.
-
-            '
-          pattern: ^@?[a-zA-Z0-9_]{1,32}$
-          example: durov
-    Error:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: object
-          required:
-          - code
-          - message
-          properties:
-            code:
-              type: string
-              description: Stable machine error code to branch on.
-              enum:
-              - bad_request
-              - unauthorized
-              - forbidden
-              - not_found
-              - conflict
-              - recipient_ineligible
-              - rate_limited
-              - unavailable
-              - internal
-            message:
-              type: string
-              description: Human-readable description.
-            telegram_message:
-              type: string
-              description: A verbatim user-facing message from Fragment, when present.
-    OrderType:
-      type: string
-      enum:
-      - stars
-      - premium
     PaymentInstruction:
       type: object
       description: How to pay for the order. Send EXACTLY `amount` with `memo`.
@@ -502,6 +354,88 @@ components:
           oneOf:
           - $ref: '#/components/schemas/FeeBreakdown'
           - type: 'null'
+    OrderType:
+      type: string
+      enum:
+      - stars
+      - premium
+    Recipient:
+      type: object
+      required:
+      - username
+      properties:
+        username:
+          type: string
+          description: 'Telegram @username (the leading `@` is optional, case-insensitive). After canonicalisation (strip `@`, lowercase) must match `[a-z0-9_]{1,32}` — invalid or oversized handles return 400.
+
+            '
+          pattern: ^@?[a-zA-Z0-9_]{1,32}$
+          example: durov
+    PaymentCurrency:
+      type: string
+      enum:
+      - ton
+      - usdt_ton
+      default: ton
+      description: '`ton` = GRAM (ex TON), `usdt_ton` = USDT (TON).'
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Stable machine error code to branch on.
+              enum:
+              - bad_request
+              - unauthorized
+              - forbidden
+              - not_found
+              - conflict
+              - recipient_ineligible
+              - rate_limited
+              - unavailable
+              - internal
+            message:
+              type: string
+              description: Human-readable description.
+            telegram_message:
+              type: string
+              description: A verbatim user-facing message from Fragment, when present.
+    CreateOrderRequest:
+      type: object
+      required:
+      - type
+      - recipient
+      properties:
+        type:
+          $ref: '#/components/schemas/OrderType'
+        recipient:
+          $ref: '#/components/schemas/Recipient'
+        quantity:
+          type: integer
+          minimum: 50
+          maximum: 1000000
+          description: Number of Stars. Required when `type=stars`. Must be in [50, 1000000].
+        months:
+          type: integer
+          enum:
+          - 3
+          - 6
+          - 12
+          description: Premium subscription length in months. Required when `type=premium`. Must be 3, 6, or 12.
+        payment_currency:
+          $ref: '#/components/schemas/PaymentCurrency'
+        callback_url:
+          type: string
+          format: uri
+          description: Optional HTTPS URL for the signed order-status webhook. Must be a publicly reachable `https://` URL — loopback addresses, private-network hosts, and non-HTTPS schemes are rejected with `400 bad_request`.
     Order:
       type: object
       required:
@@ -566,37 +500,155 @@ components:
           - 'null'
           format: date-time
           description: Non-null only while `awaiting_payment`.
-    CreateOrderRequest:
+    CreatedOrder:
       type: object
       required:
+      - order_id
+      - status
       - type
-      - recipient
+      - quantity
+      - months
+      - payment
+      - expires_at
       properties:
-        type:
-          $ref: '#/components/schemas/OrderType'
-        recipient:
-          $ref: '#/components/schemas/Recipient'
-        quantity:
-          type: integer
-          minimum: 50
-          maximum: 1000000
-          description: Number of Stars. Required when `type=stars`. Must be in [50, 1000000].
-        months:
-          type: integer
-          enum:
-          - 3
-          - 6
-          - 12
-          description: Premium subscription length in months. Required when `type=premium`. Must be 3, 6, or 12.
-        payment_currency:
-          $ref: '#/components/schemas/PaymentCurrency'
-        callback_url:
+        order_id:
           type: string
-          format: uri
-          description: Optional HTTPS URL for the signed order-status webhook. Must be a publicly reachable `https://` URL — loopback addresses, private-network hosts, and non-HTTPS schemes are rejected with `400 bad_request`.
+          format: uuid
+        status:
+          $ref: '#/components/schemas/OrderStatus'
+        type:
+          type: string
+          description: The product this order is for — echoed back from your request.
+          enum:
+          - stars
+          - premium
+        quantity:
+          type:
+          - integer
+          - 'null'
+          description: 'The number of Stars ordered (when `type=stars`); `null` for Premium.
+
+            '
+          example: 500
+        months:
+          type:
+          - integer
+          - 'null'
+          description: 'The Premium subscription length in months ordered (when `type=premium`); `null` for Stars.
+
+            '
+          example: null
+        payment:
+          $ref: '#/components/schemas/PaymentInstruction'
+        expires_at:
+          type: string
+          format: date-time
+          description: After this, an unpaid order expires and is cleaned up.
+    FeeBreakdown:
+      type: object
+      description: Itemisation of the `usdt_ton` processing fee that is ALREADY part of the all-in amount. `subtotal + processing_fee == total == amount`. Pass-through swap cost only — it does not reveal our cost basis or markup. Only `total` (= `amount`) is binding — the `subtotal`/`processing_fee` split is informational and may shift by a cent with the live FX rate.
+      required:
+      - subtotal
+      - processing_fee
+      - total
+      - description
+      - currency
+      properties:
+        subtotal:
+          type: string
+          description: The item price before the processing fee, as a decimal string (USDT).
+          example: '13.18'
+        processing_fee:
+          type: string
+          description: The 1% DEX swap fee + 0.5 GRAM swap gas, combined and rounded up to the cent, as a decimal string (USDT).
+          example: '0.92'
+        total:
+          type: string
+          description: subtotal + processing_fee — equals `amount`. Decimal string (USDT).
+          example: '14.1'
+        description:
+          type: string
+          description: Human-readable label for the fee components.
+          example: 1% swap + 0.5 GRAM gas
+        currency:
+          type: string
+          enum:
+          - usdt
+          description: The unit of the fee amounts (always `usdt`).
+    OrderStatus:
+      type: string
+      description: Lifecycle status. `awaiting_payment` is the only cancellable state.
+      enum:
+      - received
+      - awaiting_payment
+      - paid
+      - reserved
+      - swapping
+      - funding
+      - purchasing
+      - fulfilling
+      - completed
+      - delivered
+      - failed
+      - reversed
+      - expired
+      - held
+      - cancelled
+  parameters:
+    OrderId:
+      name: id
+      in: path
+      required: true
+      description: The order id (UUID, also used as the on-chain payment memo).
+      schema:
+        type: string
+        format: uuid
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      description: 'A unique key for this create attempt. Retrying with the same key and an
+
+        identical body returns the original order; a different body is a 409.
+
+        '
+      schema:
+        type: string
   responses:
+    BadRequest:
+      description: Malformed request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unavailable:
+      description: 'A required source was temporarily unavailable — either the price source,
+
+        or recipient eligibility could not be verified right now. **Retryable**:
+
+        reuse the same `Idempotency-Key` and try again shortly. No order is created
+
+        and you are not charged.
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: No such order for this tenant.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     RecipientIneligible:
       description: The recipient cannot receive this item. No order is created.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid `X-Api-Key`.
       content:
         application/json:
           schema:
@@ -619,58 +671,6 @@ components:
             error:
               code: rate_limited
               message: rate limit exceeded
-    Unavailable:
-      description: 'A required source was temporarily unavailable — either the price source,
-
-        or recipient eligibility could not be verified right now. **Retryable**:
-
-        reuse the same `Idempotency-Key` and try again shortly. No order is created
-
-        and you are not charged.
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid `X-Api-Key`.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: No such order for this tenant.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Malformed request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    IdempotencyKey:
-      name: Idempotency-Key
-      in: header
-      required: true
-      description: 'A unique key for this create attempt. Retrying with the same key and an
-
-        identical body returns the original order; a different body is a 409.
-
-        '
-      schema:
-        type: string
-    OrderId:
-      name: id
-      in: path
-      required: true
-      description: The order id (UUID, also used as the on-chain payment memo).
-      schema:
-        type: string
-        format: uuid
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
