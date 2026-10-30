@@ -1,4 +1,4 @@
-# mystars-faas-fulfilment-api
+# MyStars FaaS — Fulfilment API
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,4 +64,128 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-A B2B Fragment-as-a-Service (FaaS) fulfilment REST API for programmatically buying and reselling Telegram Stars and Telegram Premium, delivered to any Telegram @username, paid on-chain in TON (GRAM) or USDT (TON). Non-custodial, no KYC. Offers versioned /v1 endpoints for pricing, recipient checks, p
+A B2B Fragment-as-a-Service (FaaS) fulfilment REST API for programmatically buying and reselling Telegram Stars and Telegram Premium, delivered to any Telegram @username, paid on-chain in TON (GRAM) or USDT (TON). Non-custodial, no KYC. Offers versioned /v1 endpoints for pricing, recipient checks, product catalog, and order lifecycle, with signed webhooks and official TypeScript and Python SDKs.
+
+**Areas:** Telegram · telegram-stars · telegram-premium · Payments · Cryptocurrency · TON · gram · USDT · Fintech · fulfilment · Digital Goods · Non-Custodial
+
+## MyStars FaaS — Fulfilment API on APIs.io
+
+Everything profiled for MyStars FaaS — Fulfilment API is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/mystars-faas-fulfilment-api/](https://apis.io/providers/mystars-faas-fulfilment-api/)** — or go straight to one of the APIs or properties below.
+
+### APIs (4)
+
+- [MyStars FaaS — Fulfilment API MyStars FaaS — Fulfilment API](https://apis.io/apis/mystars-faas-fulfilment-api/mystars-faas-fulfilment-api-mystars-faas-fulfilment-api-api/) — The MyStars FaaS — Fulfilment API API from MyStars FaaS — Fulfilment API — 0 operation(s) for mystars faas — fulfilment api.
+- [MyStars FaaS — Fulfilment API Orders API](https://apis.io/apis/mystars-faas-fulfilment-api/mystars-faas-fulfilment-api-orders-api/) — Create, inspect, list and cancel fulfilment orders.
+- [MyStars FaaS — Fulfilment API Pricing API](https://apis.io/apis/mystars-faas-fulfilment-api/mystars-faas-fulfilment-api-pricing-api/) — Quote a price; list supported payment currencies and products.
+- [MyStars FaaS — Fulfilment API Recipients API](https://apis.io/apis/mystars-faas-fulfilment-api/mystars-faas-fulfilment-api-recipients-api/) — Resolve a recipient and check delivery eligibility before ordering.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Mystars Faas Fulfilment Api Webhooks](https://apis.io/asyncapis/mystars-faas-fulfilment-api/mystars-faas-fulfilment-api-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [mystars-faas](https://apis.io/servers/mystars-faas-fulfilment-api/mystars-faas/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Mystars Faas Fulfilment Api Openapi Overlay](https://apis.io/overlays/mystars-faas-fulfilment-api/mystars-faas-fulfilment-api-openapi-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Mystars Faas Fulfilment Api Authentication](https://apis.io/security/mystars-faas-fulfilment-api/mystars-faas-fulfilment-api-authentication/)
+- [Mystars Faas Fulfilment Api Domain Security](https://apis.io/security/mystars-faas-fulfilment-api/mystars-faas-fulfilment-api-domain-security/)
+- [Mystars Faas Fulfilment Api Vulnerability Disclosure](https://apis.io/security/mystars-faas-fulfilment-api/mystars-faas-fulfilment-api-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Mystars Faas Fulfilment Api Plans Pricing](https://apis.io/plans/mystars-faas-fulfilment-api/mystars-faas-fulfilment-api-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Mystars Faas Fulfilment Api Rate Limits](https://apis.io/rate-limits/mystars-faas-fulfilment-api/mystars-faas-fulfilment-api-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://mystars.tg)
+- [API reference](https://mystars.tg/docs)
+- [Sign up](https://t.me/my_stars_tg_bot)
+- [Support](https://t.me/Mystars_support_bot)
+- [Blog](https://mystars.tg/blog)
+- [Security](https://mystars.tg/.well-known/security.txt)
+- [Terms of service](https://mystars.tg/terms)
+- [Privacy policy](https://mystars.tg/privacy)
+- [GitHub](https://github.com/mystars-tg)
+
+## API Evangelist rating
+
+**Kin Score 49.5** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 60.9 |
+| Contract governance | 4.5 |
+| Operational transparency | 63.2 |
+| Developer ergonomics | 54.2 |
+| Access clarity | 34.2 |
+
+**Agent readiness 41.0** — agent-native
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | verified |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 27.7** — Payments
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/mystars-faas-fulfilment-api/](https://apis.io/providers/mystars-faas-fulfilment-api/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for MyStars FaaS — Fulfilment API: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/mystars-faas-fulfilment-api/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
